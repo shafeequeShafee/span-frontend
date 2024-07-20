@@ -37,7 +37,7 @@
       </tbody>
     </table>
 
-    <!-- Add Employee Modal -->
+
     <AddEmployeeModel
       :show="showAddModal"
       :employee="newEmployee"
@@ -45,7 +45,7 @@
       @submit="addEmployee"
     />
 
-    <!-- Search Modal -->
+  
     <SearchEmployeeModel
       :show="showSearchModal"
       :searchField="searchField"
@@ -102,7 +102,7 @@ export default {
         state: "IL",
         experience: "7 years",
       },
-      // Add more employee data as needed
+  
     ]);
 
     const filteredEmployees = computed(() => {
