@@ -7,8 +7,10 @@ const apiService = {
   async validateLogin(email, password) {
     try {
       const response = await axios.get(`${API_URL}/users`);
-      
-      const users = response.data.users;
+      console.log("response",response)
+      console.log("email",email)
+      console.log("password",password)
+      const users = response.data;
       console.log("users",users)
       const user = users.find((user) => user.email === email);
 

@@ -33,6 +33,13 @@
       "password": "password456",
       "logoUrl": "http://example.com/logo2.png",
       "companyName": "Company Two"
+    },
+    {
+      "id": "e6cf",
+      "companyName": "sdfghj",
+      "logoUrl": "dfghbj",
+      "email": "sfq@123.gmail.com",
+      "password": "123456789"
     }
   ]
 }

@@ -24,9 +24,12 @@ import { ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { validateLogin } from "../utils/validation"; // Import the validation function
+import apiService from "../apiservice/apiservice"; // Import the API service
+
 
 const store = useStore();
 const router = useRouter();
+
 
 const email = ref("");
 const password = ref("");
@@ -43,18 +46,19 @@ const login = async () => {
     return;
   }
 
-  // Simulate authentication
-  if (email.value === "user@example.com" && password.value === "password123") {
-    await store.dispatch("login"); // Call Vuex action
+  try {
+    const user = await apiService.validateLogin(email.value, password.value);
+    await store.dispatch("login", user); // Call Vuex action with user data
     alert("Logged in successfully");
     router.push("/home"); // Redirect to home page
-  } else if (email.value !== "user@example.com") {
-    alert("Email is not registered");
-  } else if (password.value !== "password123") {
-    console.log("hiiii");
-    alert("Incorrect password");
-  } else {
-    alert("Invalid credentials");
+  } catch (error) {
+    if (error.message === "Email is not registered") {
+      alert("Email is not registered");
+    } else if (error.message === "Incorrect Password") {
+      alert("Incorrect password");
+    } else {
+      alert("Login failed");
+    }
   }
 };
 </script>
