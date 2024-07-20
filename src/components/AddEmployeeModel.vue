@@ -5,39 +5,54 @@
       <h2>Add Employee</h2>
       <input type="text" v-model="localEmployee.name" placeholder="Name" />
       <input type="date" v-model="localEmployee.dob" placeholder="DOB" />
-      <input type="text" v-model="localEmployee.address" placeholder="Address" />
+      <input
+        type="text"
+        v-model="localEmployee.address"
+        placeholder="Address"
+      />
       <input type="text" v-model="localEmployee.city" placeholder="City" />
       <input type="text" v-model="localEmployee.state" placeholder="State" />
-      <input type="text" v-model="localEmployee.experience" placeholder="Experience" />
+      <input
+        type="text"
+        v-model="localEmployee.experience"
+        placeholder="Experience"
+      />
       <button @click="submit">Submit</button>
     </div>
   </div>
 </template>
 
 <script>
-import { ref, watch } from 'vue';
-
+import { ref, watch } from "vue";
+import apiService from "../apiservice/apiservice";
 export default {
   props: {
     show: Boolean,
     employee: Object,
   },
-  emits: ['close', 'submit'],
+  emits: ["close", "submit"],
   setup(props, { emit }) {
     const localEmployee = ref({ ...props.employee });
 
-    watch(() => props.employee, (newVal) => {
-      localEmployee.value = { ...newVal };
-    });
+    watch(
+      () => props.employee,
+      (newVal) => {
+        localEmployee.value = { ...newVal };
+      }
+    );
 
     const closeModal = () => {
-      emit('close');
+      emit("close");
     };
 
-    const submit = () => {
-      emit('submit', localEmployee.value);
+    const submit = async () => {
+      try {
+        const response = await apiService.addEmployee(localEmployee.value);
+        emit("submit", response);
+      } catch (error) {
+        console.error("Error adding employee:", error);
+      }
     };
-
     return {
       localEmployee,
       closeModal,

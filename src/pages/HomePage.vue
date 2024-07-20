@@ -37,7 +37,6 @@
       </tbody>
     </table>
 
-
     <AddEmployeeModel
       :show="showAddModal"
       :employee="newEmployee"
@@ -45,7 +44,6 @@
       @submit="addEmployee"
     />
 
-  
     <SearchEmployeeModel
       :show="showSearchModal"
       :searchField="searchField"
@@ -57,9 +55,10 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import AddEmployeeModel from "../components/AddEmployeeModel.vue";
 import SearchEmployeeModel from "../components/SearchEmployeeModel.vue";
+import apiService from "@/apiservice/apiservice";
 
 export default {
   components: {
@@ -83,27 +82,17 @@ export default {
       experience: "",
     });
 
-    const employees = ref([
-      {
-        id: 1,
-        name: "John Doe",
-        dob: "1990-01-01",
-        address: "123 Main St",
-        city: "Springfield",
-        state: "IL",
-        experience: "5 years",
-      },
-      {
-        id: 2,
-        name: "Jane Smith",
-        dob: "1985-05-15",
-        address: "456 Elm St",
-        city: "Springfield",
-        state: "IL",
-        experience: "7 years",
-      },
-  
-    ]);
+    const employees = ref([]);
+    const fetchEmployees = async () => {
+      try {
+        employees.value = await apiService.fetchEmployees();
+        console.log("employees",employees)
+      } catch (error) {
+        console.error("Error fetching employees:", error);
+      }
+    };
+
+    onMounted(fetchEmployees);
 
     const filteredEmployees = computed(() => {
       return employees.value.filter((employee) =>
@@ -113,33 +102,25 @@ export default {
       );
     });
 
-    const addEmployee = (employee) => {
-      const id = Date.now();
-      employees.value.push({ ...employee, id });
-      newEmployee.value = {
-        id: null,
-        name: "",
-        dob: "",
-        address: "",
-        city: "",
-        state: "",
-        experience: "",
-      };
-      showAddModal.value = false;
-    };
-
-    const editEmployee = (id) => {
-      const employee = employees.value.find((emp) => emp.id === id);
-      if (employee) {
-        newEmployee.value = { ...employee };
-        showAddModal.value = true;
+    const addEmployee = async (employee) => {
+      try {
+        const response = await apiService.addEmployee(employee);
+        employees.value.push(response);
+        showAddModal.value = false;
+      } catch (error) {
+        console.error("Error adding employee:", error);
       }
     };
 
-    const deleteEmployee = (id) => {
-      employees.value = employees.value.filter(
-        (employee) => employee.id !== id
-      );
+    const deleteEmployee = async (id) => {
+      try {
+        await apiService.deleteEmployee(id);
+        employees.value = employees.value.filter(
+          (employee) => employee.id !== id
+        );
+      } catch (error) {
+        console.error("Error deleting employee:", error);
+      }
     };
 
     const performSearch = ({ field, query }) => {
@@ -147,7 +128,13 @@ export default {
       searchQuery.value = query;
       showSearchModal.value = false;
     };
-
+    const editEmployee = (id) => {
+      const employee = employees.value.find((emp) => emp.id === id);
+      if (employee) {
+        newEmployee.value = { ...employee };
+        showAddModal.value = true;
+      }
+    };
     return {
       search,
       searchField,

@@ -21,20 +21,18 @@ export const validateLogin = (email, password) => {
   return { isValid, errors };
 };
 
+
 export const validateRegistration = (companyName, logoUrl, email, password) => {
   const errors = { companyName: "", logoUrl: "", email: "", password: "" };
   let isValid = true;
 
   if (!companyName) {
-    errors.companyName = "Company name is required";
+    errors.companyName = "Company Name is required";
     isValid = false;
   }
 
   if (!logoUrl) {
-    errors.logoUrl = "Logo URL is required";
-    isValid = false;
-  } else if (!/^https?:\/\/.+\.(jpg|jpeg|png|gif)$/.test(logoUrl)) {
-    errors.logoUrl = "Invalid logo URL";
+    errors.logoUrl = "Logo is required";
     isValid = false;
   }
 

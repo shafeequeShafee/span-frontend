@@ -40,12 +40,21 @@
       <button type="submit">Register</button>
     </form>
     <p>Already have an account? <router-link to="/login">Login</router-link></p>
+    <div v-if="logoUrl">
+      <h2>Preview:</h2>
+      <img
+        :src="logoUrl"
+        alt="Logo"
+        style="max-width: 100px; max-height: 100px"
+      />
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import apiService from "../apiservice/apiservice";
 import { validateRegistration } from "../utils/validation"; // Import the validation function
 
 const router = useRouter();
@@ -57,6 +66,7 @@ const password = ref("");
 const errors = ref({ companyName: "", logoUrl: "", email: "", password: "" });
 
 const register = async () => {
+  // Validate the input fields
   const { isValid, errors: validationErrors } = validateRegistration(
     companyName.value,
     logoUrl.value,
@@ -69,19 +79,34 @@ const register = async () => {
     return;
   }
 
-  // Simulate successful registration
-  console.log("Registration details:", {
-    companyName: companyName.value,
-    logoUrl: logoUrl.value,
-    email: email.value,
-    password: password.value,
-  });
-  alert("Registered");
-  router.push("/login"); // Redirect to login page after registration
+  try {
+    // Check if the email is already registered
+    await apiService.validateLogin(email.value, password.value);
+    alert("Email is already registered");
+  } catch (error) {
+    if (error.message === "Email is not registered") {
+      try {
+        // Register the new user
+        await apiService.registerUser({
+          companyName: companyName.value,
+          logoUrl: logoUrl.value,
+          email: email.value,
+          password: password.value,
+        });
+        alert("Registered successfully");
+        router.push("/login"); // Redirect to login page after registration
+      } catch (registrationError) {
+        console.error("Registration error:", registrationError);
+        alert("Registration failed");
+      }
+    } else {
+      console.error("Validation error:", error);
+    }
+  }
 };
 </script>
 
-<style>
+<style scoped>
 /* Add your styles here */
 form {
   display: flex;
@@ -123,5 +148,10 @@ button:hover {
 span {
   color: red;
   font-size: 0.8em;
+}
+
+img {
+  display: block;
+  margin-top: 10px;
 }
 </style>
