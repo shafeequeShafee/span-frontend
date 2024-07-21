@@ -23,6 +23,9 @@
           </tr>
         </thead>
         <tbody class="table-body">
+          <tr v-if="filteredEmployees.length === 0" class="no-data-found">
+            <td colspan="8">No data available</td>
+          </tr>
           <tr v-for="(employee, index) in filteredEmployees" :key="employee.id">
             <td>{{ index + 1 }}</td>
             <td>{{ employee.name }}</td>
@@ -94,12 +97,11 @@ export default {
     const viewImg = ref(viewImgPath);
 
     const newEmployee = ref({
-      id: null,
       name: "",
       dob: "",
       address: "",
       city: "",
-      state: "",
+      state: "Tamil Nadu",
       experience: "",
     });
 
