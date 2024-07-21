@@ -1,41 +1,54 @@
 <template>
-  <div>
-    <button @click="showAddModal = true">Add Employee</button>
-    <input
-      type="text"
-      v-model="search"
-      placeholder="Search"
-      @focus="showSearchModal = true"
-    />
-    <table>
-      <thead>
-        <tr>
-          <th>S.No</th>
-          <th>Name</th>
-          <th>DOB</th>
-          <th>Address</th>
-          <th>City</th>
-          <th>State</th>
-          <th>Experience</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(employee, index) in filteredEmployees" :key="employee.id">
-          <td>{{ index + 1 }}</td>
-          <td>{{ employee.name }}</td>
-          <td>{{ employee.dob }}</td>
-          <td>{{ employee.address }}</td>
-          <td>{{ employee.city }}</td>
-          <td>{{ employee.state }}</td>
-          <td>{{ employee.experience }}</td>
-          <td>
-            <button @click="editEmployee(employee.id)">Edit</button>
-            <button @click="deleteEmployee(employee.id)">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="home-page-container">
+    <div class="home-page-top-section">
+      <button class="button-add-employee" @click="showAddModal = true">
+        Add Employee
+      </button>
+      <button class="button-search" @click="showSearchModal = true">
+        Search
+      </button>
+    </div>
+    <div class="home-page-table-section">
+      <table class="item-table">
+        <thead class="table-header">
+          <tr>
+            <th>S.No</th>
+            <th>Name</th>
+            <th>DOB</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Experience</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody class="table-body">
+          <tr v-for="(employee, index) in filteredEmployees" :key="employee.id">
+            <td>{{ index + 1 }}</td>
+            <td>{{ employee.name }}</td>
+            <td>{{ employee.dob }}</td>
+            <td>{{ employee.address }}</td>
+            <td>{{ employee.city }}</td>
+            <td>{{ employee.state }}</td>
+            <td>{{ employee.experience }}</td>
+            <td>
+              <img
+                @click="editEmployee(employee.id)"
+                :src="pencilImg"
+                alt="edit"
+              />
+              <img
+                @click="deleteEmployee(employee.id)"
+                :src="trashImg"
+                alt="delete"
+              />
+
+              <img :src="viewImg" alt="view" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <AddEmployeeModel
       :show="showAddModal"
@@ -60,6 +73,10 @@ import AddEmployeeModel from "../components/AddEmployeeModel.vue";
 import SearchEmployeeModel from "../components/SearchEmployeeModel.vue";
 import apiService from "@/apiservice/apiservice";
 
+import pencilImgPath from "../assets/images/pencil.png";
+import trashImgPath from "../assets/images/trash.png";
+import viewImgPath from "../assets/images/eye.png";
+
 export default {
   components: {
     AddEmployeeModel,
@@ -71,6 +88,10 @@ export default {
     const searchQuery = ref("");
     const showAddModal = ref(false);
     const showSearchModal = ref(false);
+
+    const trashImg = ref(trashImgPath);
+    const pencilImg = ref(pencilImgPath);
+    const viewImg = ref(viewImgPath);
 
     const newEmployee = ref({
       id: null,
@@ -147,6 +168,9 @@ export default {
       editEmployee,
       deleteEmployee,
       performSearch,
+      pencilImg,
+      trashImg,
+      viewImg,
     };
   },
 };

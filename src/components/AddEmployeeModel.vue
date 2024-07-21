@@ -81,7 +81,8 @@ export default {
   margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  width: 40%;
+  text-align: center;
 }
 
 .close {
@@ -96,5 +97,11 @@ export default {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+input {
+  display: block;
+  margin: 5px 10px;
+  padding: 5px 10px;
 }
 </style>

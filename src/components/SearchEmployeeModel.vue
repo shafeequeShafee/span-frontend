@@ -3,16 +3,21 @@
     <div class="modal-content">
       <span class="close" @click="closeModal">&times;</span>
       <h2>Advanced Search</h2>
-      <select v-model="localSearchField">
-        <option value="name">Name</option>
-        <option value="dob">DOB</option>
-      </select>
-      <input
-        type="text"
-        v-model="localSearchQuery"
-        placeholder="Search query"
-      />
-      <button @click="search">Search</button>
+      <div class="modal-content-body">
+        <select v-model="localSearchField">
+          <option value="name">Name</option>
+          <option value="city">City</option>
+          <option value="state">State</option>
+          <option value="dob">DOB</option>
+          <option value="address">Address</option>
+        </select>
+        <input
+          type="text"
+          v-model="localSearchQuery"
+          :placeholder="localSearchField"
+        />
+        <button @click="search">Search</button>
+      </div>
     </div>
   </div>
 </template>
@@ -85,7 +90,8 @@ export default {
   margin: 15% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  width: 30%;
+  text-align: center;
 }
 
 .close {
@@ -100,5 +106,14 @@ export default {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+input,
+select,
+button {
+  display: block;
+  margin: 5px 10px;
+  padding: 5px 10px;
+  width: 100px;
 }
 </style>
