@@ -5,8 +5,8 @@ export default createStore({
     return {
       isAuthenticated: true,
       userDetails: {
-        logoUrl: "https://en.wikipedia.org/wiki/Cristiano_Ronaldo",
-        companyName: "Claysys Technology",
+        logoUrl: "",
+        companyName: "",
       },
     };
   },
