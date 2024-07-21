@@ -1,16 +1,7 @@
 {
   "employees": [
     {
-      "id": 1,
-      "name": "John Doe",
-      "dob": "1990-01-01",
-      "address": "123 Main St",
-      "city": "Springfield",
-      "state": "IL",
-      "experience": "5 years"
-    },
-    {
-      "id": 2,
+      "id": "2",
       "name": "Jane Smith",
       "dob": "1985-05-15",
       "address": "456 Elm St",
@@ -21,14 +12,14 @@
   ],
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "email": "user1@example.com",
       "password": "password123",
       "logoUrl": "http://example.com/logo1.png",
       "companyName": "Company One"
     },
     {
-      "id": 2,
+      "id": "2",
       "email": "user2@example.com",
       "password": "password456",
       "logoUrl": "http://example.com/logo2.png",

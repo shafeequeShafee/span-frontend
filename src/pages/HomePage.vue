@@ -86,7 +86,6 @@ export default {
     const fetchEmployees = async () => {
       try {
         employees.value = await apiService.fetchEmployees();
-        console.log("employees",employees)
       } catch (error) {
         console.error("Error fetching employees:", error);
       }
@@ -152,3 +151,4 @@ export default {
   },
 };
 </script>
+<style scoped></style>

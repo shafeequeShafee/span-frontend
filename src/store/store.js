@@ -3,28 +3,38 @@ import { createStore } from "vuex";
 export default createStore({
   state() {
     return {
-      isAuthenticated: false,
+      isAuthenticated: true,
+      userDetails: {
+        logoUrl: "https://en.wikipedia.org/wiki/Cristiano_Ronaldo",
+        companyName: "Claysys Technology",
+      },
     };
   },
   getters: {
     isAuthenticated: (state) => {
       return state.isAuthenticated;
     },
+
+    getUserDetails: (state) => {
+      return state.userDetails;
+    },
   },
 
   mutations: {
-    login: (state) => {
-      console.log("login");
+    login: (state, payload) => {
       state.isAuthenticated = true;
+      state.userDetails.companyName = payload?.companyName;
+      state.userDetails.logoUrl = payload?.logoUrl;
     },
     logout: (state) => {
-      console.log("logout");
       state.isAuthenticated = false;
+      state.userDetails.companyName = "";
+      state.userDetails.logoUrl = "";
     },
   },
   actions: {
-    login({ commit }) {
-      commit("login");
+    login({ commit }, payload) {
+      commit("login", payload);
     },
 
     logout({ commit }) {

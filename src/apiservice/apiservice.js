@@ -7,21 +7,14 @@ const apiService = {
   async validateLogin(email, password) {
     try {
       const response = await axios.get(`${API_URL}/users`);
-      console.log("response",response)
-      console.log("email",email)
-      console.log("password",password)
       const users = response.data;
-      console.log("users",users)
       const user = users.find((user) => user.email === email);
-
       if (!user) {
         throw new Error("Email is not registered");
       }
-
       if (user.password !== password) {
         throw new Error("Incorrect Password");
       }
-
       return user;
     } catch (error) {
       console.error("Error validating login:", error);
